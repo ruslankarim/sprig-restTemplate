@@ -27,7 +27,8 @@ public class RestClient {
             headers.add("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            return restTemplate.exchange("http://localhost:8081/users/autorize", HttpMethod.POST, request, User.class).getBody();
+            User user = restTemplate.exchange("http://localhost:8081/users/autorize", HttpMethod.POST, request, User.class).getBody();
+            return user;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

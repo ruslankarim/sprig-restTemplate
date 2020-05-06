@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import web.model.Role;
 import web.model.User;
 
 @Service("userDetailsService")
@@ -26,7 +27,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
       builder = org.springframework.security.core.userdetails.User.withUsername(email);
       builder.password(user.getPassword());
       String[] authorities = user.getRoles()
-          .stream().map(a -> a.getAuthority()).toArray(String[]::new);
+          .stream().map(Role::getAuthority).toArray(String[]::new);
 
       builder.authorities(authorities);
     } else {

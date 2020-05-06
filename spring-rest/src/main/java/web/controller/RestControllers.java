@@ -15,9 +15,6 @@ import java.util.Set;
 public class RestControllers {
 
     @Autowired
-    UserServiceImp userServiceImp;
-
-    @Autowired
     private RestClient restClient;
 
     @GetMapping("/api/authenticate")
@@ -34,11 +31,15 @@ public class RestControllers {
     @PostMapping("/admin/new")
     public void addUser(@RequestBody User user){
         Set<Role> roles = user.getRoles();
-        if(user.getIsAdmin()){
-            roles.add(Role.ADMIN);
+        if(user.isAdmin()){
+            Role role = new Role();
+            role.setName("ADMIN");
+            roles.add(role);
         }
-        if(user.getIsUser()){
-            roles.add(Role.USER);
+        if(user.isUser()){
+            Role role = new Role();
+            role.setName("USER");
+            roles.add(role);
         }
         user.setRoles(roles);
         restClient.addUser(user);
@@ -47,11 +48,15 @@ public class RestControllers {
     @PostMapping("/admin/updateuser")
     public void updateUser(@RequestBody User user){
         Set<Role> roles = user.getRoles();
-        if(user.getIsAdmin()){
-            roles.add(Role.ADMIN);
+        if(user.isAdmin()){
+            Role role = new Role();
+            role.setName("ADMIN");
+            roles.add(role);
         }
-        if(user.getIsUser()){
-            roles.add(Role.USER);
+        if(user.isUser()){
+            Role role = new Role();
+            role.setName("USER");
+            roles.add(role);
         }
         user.setRoles(roles);
         restClient.updateUser(user);

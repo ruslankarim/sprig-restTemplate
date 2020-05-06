@@ -19,7 +19,8 @@ public class UserRestController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers(){
-        return userService.getAllUsers();
+        List<User> users = userService.getAllUsers();
+        return users;
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes="application/json")
@@ -40,6 +41,7 @@ public class UserRestController {
     @RequestMapping(value = "/users/autorize", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUser(@RequestBody String email){
         String s = email.replaceAll("\"","");
-        return userService.findUserByEmail(s);
+        User user = userService.findUserByEmail(s);
+        return user;
     }
 }
