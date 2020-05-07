@@ -24,7 +24,6 @@ const LoginComponent = (props) => {
     }
 
     const attemptLogin = (event) => {
-        console.log(credentials)
         event.preventDefault();
         if (!validateForm()) {
             return
@@ -37,10 +36,16 @@ const LoginComponent = (props) => {
         })
             .then(response => {
                 setloginError(false)
+
                 AuthenticationService.registerSuccessfulLogin(credentials.username)
                 publishAuthenticated(response.data)
-                console.log(response.data.roles)
-                if(response.data.roles.includes("ADMIN")){
+                let isAdmin = false;
+                response.data.roles.forEach(function (el) {
+                    if (el.name === "ADMIN") {
+                        isAdmin = true
+                    }
+                })
+                if (isAdmin){
                     props.history.push('/admin')
                 }else {
                     props.history.push('/user')

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import AdminLinks from "./AdminLinks/AdminLinks";
 import TableUsers from "./TableUsers/TableUsers";
 import NewUser from "./NewUser/NewUser";
+import Navbar from "../../Navbar";
 
 const AdminPanel = () => {
 
@@ -24,6 +25,7 @@ const AdminPanel = () => {
     }
     return (
         <div className='container'>
+            <Navbar />
             <AdminLinks toggleUserForm={toggleUserForm}
                         toggleUserTable={toggleUserTable}
             />

@@ -12,7 +12,6 @@ function App() {
   return (
     <Router>
       <div className="container">
-        <Navbar />
         <Route path="/" exact component={LoginComponent} />
         <Route path="/login" exact component={LoginComponent} />
         <AuthenticatedRoute path="/admin" component={AdminPanel} />

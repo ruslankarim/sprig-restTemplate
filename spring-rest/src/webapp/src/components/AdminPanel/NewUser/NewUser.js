@@ -32,6 +32,7 @@ const NewUser = ({toggleUserTable}) => {
     }
 
     const onSubmit = (e) => {
+        console.log(values)
         e.preventDefault()
         axios.post('/admin/new', values)
             .then(function (response) {

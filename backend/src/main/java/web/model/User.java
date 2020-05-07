@@ -1,19 +1,15 @@
 package web.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User /*implements UserDetails */{
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
@@ -30,7 +26,7 @@ public class User /*implements UserDetails */{
 
     private boolean isUser;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER) //разобраться
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
@@ -77,58 +73,28 @@ public class User /*implements UserDetails */{
         this.email = email;
     }
 
-    /*@Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
-    }*/
-
     public String getPassword() {
         return password;
     }
-
-    /*@Override
-    public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }*/
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
-    public boolean isUser() {
+    public boolean getIsUser() {
         return isUser;
     }
 
-    public void setUser(boolean user) {
-        isUser = user;
+    public void setIsUser(boolean isUser) {
+        this.isUser = isUser;
     }
 
     public Set<Role> getRoles() {

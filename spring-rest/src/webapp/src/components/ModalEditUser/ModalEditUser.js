@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap'
 import axios from "axios";
 
 const ModalEditUser = ({user}) => {
+    console.log(user)
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true)

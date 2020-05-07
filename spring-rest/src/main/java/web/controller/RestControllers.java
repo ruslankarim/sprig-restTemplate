@@ -25,18 +25,20 @@ public class RestControllers {
 
     @GetMapping("/admin/allusers")
     public ResponseEntity <List<User>> getAllUsers(){
-        return ResponseEntity.ok(restClient.getAllUsers());
+        List<User> users = restClient.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
     @PostMapping("/admin/new")
     public void addUser(@RequestBody User user){
+
         Set<Role> roles = user.getRoles();
-        if(user.isAdmin()){
+        if(user.getIsAdmin()){
             Role role = new Role();
             role.setName("ADMIN");
             roles.add(role);
         }
-        if(user.isUser()){
+        if(user.getIsUser()){
             Role role = new Role();
             role.setName("USER");
             roles.add(role);
@@ -48,12 +50,12 @@ public class RestControllers {
     @PostMapping("/admin/updateuser")
     public void updateUser(@RequestBody User user){
         Set<Role> roles = user.getRoles();
-        if(user.isAdmin()){
+        if(user.getIsAdmin()){
             Role role = new Role();
             role.setName("ADMIN");
             roles.add(role);
         }
-        if(user.isUser()){
+        if(user.getIsUser()){
             Role role = new Role();
             role.setName("USER");
             roles.add(role);

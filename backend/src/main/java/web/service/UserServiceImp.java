@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class UserServiceImp{
 
-    @Autowired
     UserDAO userDAO;
+
+    @Autowired
+    public UserServiceImp(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Transactional
     public List<User> getAllUsers(){
@@ -40,7 +44,7 @@ public class UserServiceImp{
     }
 
     @Transactional
-    public void deleteUser(User user){
-        userDAO.deleteUser(user);
+    public void deleteUser(Long id){
+        userDAO.deleteUser(id);
     };
 }

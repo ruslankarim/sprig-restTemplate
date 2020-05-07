@@ -7,17 +7,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="roles")
-public class Role implements GrantedAuthority {
+public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
     public Role() {
-    }
-
-    public Role(String name) {
-        this.name = name;
     }
 
     public Long getId() {
@@ -34,10 +30,5 @@ public class Role implements GrantedAuthority {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getAuthority() {
-        return getName();
     }
 }

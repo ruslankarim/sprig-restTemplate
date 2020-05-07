@@ -1,5 +1,8 @@
 package web.dao;
 
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 
@@ -11,29 +14,41 @@ import java.util.List;
 @Repository
 public class UserDaoImp implements UserDAO {
 
-  @PersistenceContext
   private EntityManager entityManager;
+
+  @Autowired
+  public UserDaoImp(EntityManager entityManager) {
+    this.entityManager = entityManager;
+  }
 
   @Override
   public List<User> getAllUsers() {
-    return entityManager.createQuery("from User", User.class).getResultList();
+    Session session = entityManager.unwrap(Session.class);
+    Query<User> query = session.createQuery("from User", User.class);
+    List<User> users = query.getResultList();
+    return users;
   }
 
   @Override
   public User findUserByEmail(String email) {
-    TypedQuery<User> query = entityManager.createQuery("select u From User u where u.email=:email", User.class);
+    Session session = entityManager.unwrap(Session.class);
+    Query<User> query = session.createQuery( "select u From User u where u.email=:email", User.class);
     query.setParameter("email", email);
-    return query.getSingleResult();
+    User user = query.getSingleResult();
+    return user;
   }
 
   @Override
   public User findUserByID(Long id) {
-        return entityManager.find(User.class, id);
-    }
+    Session session = entityManager.unwrap(Session.class);
+    User user = session.get(User.class, id);
+    return user;
+  }
 
   @Override
   public void addUser(User user) {
-      entityManager.persist(user);
+    Session session = entityManager.unwrap(Session.class);
+    session.saveOrUpdate(user);
   }
 
   @Override
@@ -42,7 +57,10 @@ public class UserDaoImp implements UserDAO {
   }
 
   @Override
-  public void deleteUser(User user) {
-    entityManager.remove(user);
+  public void deleteUser(Long id) {
+    Session session = entityManager.unwrap(Session.class);
+    Query query = session.createQuery("delete from User where id=:id");
+    query.setParameter("id", id);
+    query.executeUpdate();
   }
 }

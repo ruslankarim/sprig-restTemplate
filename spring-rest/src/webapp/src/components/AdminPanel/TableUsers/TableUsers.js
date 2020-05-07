@@ -47,7 +47,7 @@ const TableUsers = () => {
                         <td>{user.age}</td>
                         <td>{user.email}</td>
                         <td>{
-                            user.roles.map(role => role + ' ')
+                            user.roles.map(role => role.name + ' ')
                         }</td>
                         <td>
                             <ModalEditUser user={user}/>
