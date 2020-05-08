@@ -31,6 +31,12 @@ public class RestControllers {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/admin/users/")
+    public ResponseEntity <User> getAllUsers(@RequestParam String email){
+        User user = restClient.findUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
     @CrossOrigin
     @PostMapping("/admin/new")
     public void addUser(@RequestBody User user){

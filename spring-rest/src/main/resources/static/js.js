@@ -2,16 +2,16 @@ $(document).ready(function() {
     getUser();
     $("#myModal").on('show.bs.modal', function(e) {
         $.ajax({
-            url: "http://localhost:8081/admin/users",
+            url: "http://localhost:8080/admin/allusers",
             method: 'GET',
         }).then(function(data) {
             let index = $(e.relatedTarget).data('user-id');
-            $('#modalHeader').append(' ' + data[index].roles + ' ' + data[index].login + ' ' + data[index].password);
+            $('#modalHeader').append(' ' + data[index].roles + ' ' + data[index].age + ' ' + data[index].password);
             $('#id').val(data[index].id);
             $('#email').val(data[index].email);
-            $('#login').val(data[index].login);
+            $('#age').val(data[index].age);
             $('#password').val(data[index].password);
-            $('#role').val(data[index].roles);
+            $('#role').val(data[index].roles[0].name);
         });
     });
 });
@@ -19,7 +19,7 @@ $(document).on('show.bs.modal', function() {
     $("#updateForm").on('submit', function() {
         let user = $(this).serialize();
         $.ajax({
-            url: 'http://localhost:8081/admin/users',
+            url: 'http://localhost:8080/admin/users',
             type: 'PUT',
             data: user,
             success: function() {},
@@ -34,7 +34,7 @@ $(document).ready(function() {
     $("#formAdd").submit(function(event) {
         let user = $(this).serialize();
         $.ajax({
-            url: 'http://localhost:8081/admin/users',
+            url: 'http://localhost:8080/admin/users',
             method: 'POST',
             data: user,
         })
@@ -48,7 +48,7 @@ $(document).ready(function() {
         let id = $(this).attr("data-id");
         let idd = 'id='+id;
         $.ajax({
-            url: 'http://localhost:8081/admin/users',
+            url: 'http://localhost:8080/admin/deleteuser/'+ id,
             type: 'DELETE',
             data: idd,
             success: function() {},
@@ -70,7 +70,7 @@ function getUser() {
             let row = $('<tr id="trr"/>');
             let cell = $('<td width="10"></td>');
             row.append(cell);
-            cell = '<td>'+data[index].id+'</td><td>'+data[index].firstName+'</td><td>'+data[index].lastName+'</td><td>'+data[index].age+'</td><td>'+data[index].roles[0].name + ',' + data[index].roles[1].name +'</td><td>'+ data[index].email+'</td>';
+            cell = '<td>'+data[index].id+'</td><td>'+data[index].firstName+'</td><td>'+data[index].lastName+'</td><td>'+data[index].age+'</td><td>'+data[index].roles[0].name +'</td><td>'+ data[index].email+'</td>';
             row.append(cell);
             cell = $('<td/>');
             cell.html('<button class="btn btn-info" data-toggle="modal" data-target="#myModal"   style="background-color: #41b7d9" data-user-id="' + index + '">' +

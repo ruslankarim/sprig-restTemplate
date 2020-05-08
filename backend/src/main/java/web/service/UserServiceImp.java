@@ -18,7 +18,7 @@ public class UserServiceImp{
         this.userDAO = userDAO;
     }
 
-    @Transactional
+    //@Transactional
     public List<User> getAllUsers(){
         return userDAO.getAllUsers();
     };
@@ -33,12 +33,12 @@ public class UserServiceImp{
         userDAO.updateUser(user);
     };
 
-    @Transactional
+    //@Transactional
     public User findUserByEmail(String email){
         return userDAO.findUserByEmail(email);
     };
 
-    @Transactional
+    //@Transactional
     public User findUserByID(Long id){
         return userDAO.findUserByID(id);
     }
