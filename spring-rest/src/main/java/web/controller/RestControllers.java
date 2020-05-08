@@ -17,18 +17,21 @@ public class RestControllers {
     @Autowired
     private RestClient restClient;
 
+    @CrossOrigin
     @GetMapping("/api/authenticate")
     public ResponseEntity<User> authenticate(Principal principal) {
         User authorizedUser = restClient.findUserByEmail(principal.getName());
         return ResponseEntity.ok(authorizedUser);
     }
 
+    @CrossOrigin
     @GetMapping("/admin/allusers")
     public ResponseEntity <List<User>> getAllUsers(){
         List<User> users = restClient.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
+    @CrossOrigin
     @PostMapping("/admin/new")
     public void addUser(@RequestBody User user){
 
@@ -47,6 +50,7 @@ public class RestControllers {
         restClient.addUser(user);
     }
 
+    @CrossOrigin
     @PostMapping("/admin/updateuser")
     public void updateUser(@RequestBody User user){
         Set<Role> roles = user.getRoles();
@@ -64,6 +68,7 @@ public class RestControllers {
         restClient.updateUser(user);
     }
 
+    @CrossOrigin
     @DeleteMapping("/admin/deleteuser/{id}")
     public void deleteUser(@PathVariable Long id){
         restClient.deleteUser(id);

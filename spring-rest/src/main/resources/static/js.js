@@ -61,15 +61,16 @@ $(document).ready(function() {
 
 function getUser() {
     $.ajax({
-        url: "http://localhost:8081/admin/users",
+        url: "http://localhost:8080/admin/allusers",
         method: 'GET',
     }).then(function(data) {
         $('#newTab').empty();
         $.each(data, function(index) {
+            console.log(data)
             let row = $('<tr id="trr"/>');
             let cell = $('<td width="10"></td>');
             row.append(cell);
-            cell = '<td>'+data[index].id+'</td><td>'+data[index].roles+'</td><td>'+data[index].login+'</td><td>'+data[index].password+'</td><td>'+data[index].email+'</td>';
+            cell = '<td>'+data[index].id+'</td><td>'+data[index].firstName+'</td><td>'+data[index].lastName+'</td><td>'+data[index].age+'</td><td>'+data[index].roles[0].name + ',' + data[index].roles[1].name +'</td><td>'+ data[index].email+'</td>';
             row.append(cell);
             cell = $('<td/>');
             cell.html('<button class="btn btn-info" data-toggle="modal" data-target="#myModal"   style="background-color: #41b7d9" data-user-id="' + index + '">' +

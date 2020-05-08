@@ -3,6 +3,7 @@ package web.restClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,7 +17,13 @@ import java.util.List;
 
 @Component
 public class RestClient {
-    private RestTemplate restTemplate = new RestTemplate();
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public RestClient(CustomRestTemplate restTemplate) {
+        this.restTemplate = restTemplate.getRestTemplate();
+    }
 
     public User findUserByEmail(String email){
             HttpHeaders headers = new HttpHeaders();
