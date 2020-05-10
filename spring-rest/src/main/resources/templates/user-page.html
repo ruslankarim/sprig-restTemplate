@@ -45,7 +45,7 @@
                     User Page
                 </h2>
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-1 text-muted"></h6>
-                <p>Hello <a th:text="${user.login}"></a> <a th:each="role : ${user.getRoles()}">
+                <p>Hello <a th:text="${user.email}"></a> <a th:each="role : ${user.getRoles()}">
                     <a th:text="${role.getAuthority()}"></a></a>!</p>
             </div>
 

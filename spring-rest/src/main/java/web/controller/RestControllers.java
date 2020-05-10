@@ -1,7 +1,9 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
@@ -38,7 +40,7 @@ public class RestControllers {
     }
 
     @CrossOrigin
-    @PostMapping("/admin/new")
+    @PostMapping(value = "/admin/new")
     public void addUser(@RequestBody User user){
 
         Set<Role> roles = user.getRoles();
@@ -57,7 +59,7 @@ public class RestControllers {
     }
 
     @CrossOrigin
-    @PostMapping("/admin/updateuser")
+    @PutMapping("/admin/updateuser")
     public void updateUser(@RequestBody User user){
         Set<Role> roles = user.getRoles();
         if(user.getIsAdmin()){

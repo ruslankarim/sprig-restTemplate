@@ -6,9 +6,11 @@ $(document).ready(function() {
             method: 'GET',
         }).then(function(data) {
             let index = $(e.relatedTarget).data('user-id');
-            $('#modalHeader').append(' ' + data[index].roles + ' ' + data[index].age + ' ' + data[index].password);
+            $('#modalHeader').append(' ' + data[index].roles[0].name + ' ' + data[index].age + ' ' + data[index].password);
             $('#id').val(data[index].id);
             $('#email').val(data[index].email);
+            $('#firstName').val(data[index].firstName);
+            $('#lastName').val(data[index].lastName);
             $('#age').val(data[index].age);
             $('#password').val(data[index].password);
             $('#role').val(data[index].roles[0].name);
@@ -17,10 +19,25 @@ $(document).ready(function() {
 });
 $(document).on('show.bs.modal', function() {
     $("#updateForm").on('submit', function() {
-        let user = $(this).serialize();
+        let formData = $(this).serializeArray();
+        var temp = {};
+        formData.forEach(function(el){
+            temp[el.name] = el.value;
+        });
+        if (temp.role === 'ADMIN'){
+            temp.isAdmin = true
+            temp.isUser = false
+        }else {
+            temp.isUser = true
+            temp.isAdmin = false
+        }
+        let user = JSON.stringify(temp);
         $.ajax({
-            url: 'http://localhost:8080/admin/users',
+            url: 'http://localhost:8080/admin/updateuser',
             type: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             data: user,
             success: function() {},
         })
@@ -32,10 +49,25 @@ $(document).on('show.bs.modal', function() {
 });
 $(document).ready(function() {
     $("#formAdd").submit(function(event) {
-        let user = $(this).serialize();
+        let formData = $(this).serializeArray();
+        var temp = {};
+        formData.forEach(function(el){
+            temp[el.name] = el.value;
+        });
+        if (temp.role === 'ADMIN'){
+            temp.isAdmin = true
+            temp.isUser = false
+        }else {
+            temp.isUser = true
+            temp.isAdmin = false
+        }
+        let user = JSON.stringify(temp);
         $.ajax({
-            url: 'http://localhost:8080/admin/users',
+            url: 'http://localhost:8080/admin/new',
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             data: user,
         })
         setTimeout(function() {
@@ -66,7 +98,6 @@ function getUser() {
     }).then(function(data) {
         $('#newTab').empty();
         $.each(data, function(index) {
-            console.log(data)
             let row = $('<tr id="trr"/>');
             let cell = $('<td width="10"></td>');
             row.append(cell);

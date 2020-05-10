@@ -37,7 +37,7 @@ public class UserServiceImp{
     public User findUserByEmail(String email){
         return userDAO.findUserByEmail(email);
     };
-    
+
     public User findUserByID(Long id){
         return userDAO.findUserByID(id);
     }
