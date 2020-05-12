@@ -26,7 +26,7 @@ public class RestClient {
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", AUTH);
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            User user = restTemplate.exchange(URL + "user?email=" + email, HttpMethod.GET, request, User.class).getBody();
+            User user = restTemplate.getForEntity(URL + "user?email=" + email, User.class, request).getBody();
             return user;
     }
 
@@ -34,47 +34,45 @@ public class RestClient {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", AUTH);
         HttpEntity<String> request = new HttpEntity<String>(headers);
-        try {
-            return restTemplate.exchange(URL + "users", HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>(){}).getBody();
-        } catch (Exception e) {
-            throw new RuntimeException();
-        }
+        return restTemplate.exchange(URL + "users", HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>(){}).getBody();
     }
 
     public void addUser(User user) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json = null;
         try {
-            String json = mapper.writeValueAsString(user);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", AUTH);
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            restTemplate.exchange(URL + "users", HttpMethod.POST, request, String.class);
+            json = mapper.writeValueAsString(user);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", AUTH);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<String>(json, headers);
+        restTemplate.postForEntity(URL + "users", request, String.class);
     }
 
     public void updateUser(User user) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String json = null;
         try {
-            String json = mapper.writeValueAsString(user);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", AUTH);
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            restTemplate.exchange(URL + "users", HttpMethod.PUT, request, String.class);
+            json = mapper.writeValueAsString(user);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", AUTH);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<String>(json, headers);
+        restTemplate.put(URL + "users", request, String.class);
     }
 
     public void deleteUser(Long id) {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization", AUTH);
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            restTemplate.exchange(URL + "users/" + id, HttpMethod.DELETE, request, String.class);
+            restTemplate.delete(URL + "users/" + id, request, String.class);
     }
 }

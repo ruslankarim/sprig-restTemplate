@@ -16,10 +16,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         User.UserBuilder users = User.withDefaultPasswordEncoder();
-        auth.inMemoryAuthentication()
-                .withUser(users.username("admin")
-                        .password("password")
-                        .roles("admin"));
+        auth.inMemoryAuthentication().withUser(users.username("admin").password("password").roles("admin"));
     }
 
     @Override
@@ -27,7 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/api**")
                     .hasRole("admin")
-                .and().httpBasic();
+                .and()
+                .httpBasic();
         http.csrf().disable();
     }
 }
