@@ -18,7 +18,6 @@ public class UserServiceImp{
         this.userDAO = userDAO;
     }
 
-
     public List<User> getAllUsers(){
         return userDAO.getAllUsers();
     };

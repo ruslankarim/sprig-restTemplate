@@ -1,14 +1,12 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.restClient.RestClient;
-import web.service.UserServiceImp;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;

@@ -18,28 +18,24 @@ import java.util.List;
 @Component
 public class RestClient {
 
-    private RestTemplate restTemplate;
-
-    @Autowired
-    public RestClient(CustomRestTemplate restTemplate) {
-        this.restTemplate = restTemplate.getRestTemplate();
-    }
-
+    private RestTemplate restTemplate = new RestTemplate();
+    private final static String URL = "http://localhost:8081/api/";
+    private final static String AUTH = "Basic YWRtaW46cGFzc3dvcmQ=";
+    
     public User findUserByEmail(String email){
             HttpHeaders headers = new HttpHeaders();
-            String authHeader = "Basic YWRtaW46cGFzc3dvcmQ=";
-            headers.set("Authorization", authHeader);
+            headers.set("Authorization", AUTH);
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            User user = restTemplate.exchange("http://localhost:8081/api/user?email=" + email, HttpMethod.GET, request, User.class).getBody();
+            User user = restTemplate.exchange(URL + "user?email=" + email, HttpMethod.GET, request, User.class).getBody();
             return user;
     }
 
     public List<User> getAllUsers() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+        headers.add("Authorization", AUTH);
         HttpEntity<String> request = new HttpEntity<String>(headers);
         try {
-            return restTemplate.exchange("http://localhost:8081/api/users", HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>(){}).getBody();
+            return restTemplate.exchange(URL + "users", HttpMethod.GET, request, new ParameterizedTypeReference<List<User>>(){}).getBody();
         } catch (Exception e) {
             throw new RuntimeException();
         }
@@ -51,10 +47,10 @@ public class RestClient {
         try {
             String json = mapper.writeValueAsString(user);
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+            headers.add("Authorization", AUTH);
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            restTemplate.exchange("http://localhost:8081/api/users", HttpMethod.POST, request, String.class);
+            restTemplate.exchange(URL + "users", HttpMethod.POST, request, String.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -66,10 +62,10 @@ public class RestClient {
         try {
             String json = mapper.writeValueAsString(user);
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+            headers.add("Authorization", AUTH);
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> request = new HttpEntity<String>(json, headers);
-            restTemplate.exchange("http://localhost:8081/api/users", HttpMethod.PUT, request, String.class);
+            restTemplate.exchange(URL + "users", HttpMethod.PUT, request, String.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -77,8 +73,8 @@ public class RestClient {
 
     public void deleteUser(Long id) {
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Basic YWRtaW46cGFzc3dvcmQ=");
+            headers.add("Authorization", AUTH);
             HttpEntity<String> request = new HttpEntity<String>(headers);
-            restTemplate.exchange("http://localhost:8081/api/users/" + id, HttpMethod.DELETE, request, String.class);
+            restTemplate.exchange(URL + "users/" + id, HttpMethod.DELETE, request, String.class);
     }
 }
